@@ -1,9 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:learnaksara/app/modules/home/controllers/home_controller.dart';
+import 'package:learnaksara/app/routes/app_pages.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
+  HomeView({super.key});
+
+  final List<Map<String, String>> contentData = [
+    {
+      'title': 'Sejarah Aksara Bima',
+      'content': 'Sejarah aksara Bima dimulai dari...',
+      'imageUrl': 'https://via.placeholder.com/250',
+    },
+    {
+      'title': 'Aksara Bima',
+      'content': 'Aksara Bima adalah...',
+      'imageUrl': 'https://via.placeholder.com/250',
+    },
+    {
+      'title': 'Informasi tentang Aplikasi',
+      'content': 'Aplikasi ini dibuat untuk...',
+      'imageUrl': 'https://via.placeholder.com/250',
+    },
+    {
+      'title': 'Penggunaan Aksara',
+      'content': 'Penggunaan aksara ini sangat luas...',
+      'imageUrl': 'https://via.placeholder.com/250',
+    },
+    {
+      'title': 'Pelestarian Aksara',
+      'content': 'Pelestarian aksara ini dilakukan melalui...',
+      'imageUrl': 'https://via.placeholder.com/250',
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +153,8 @@ class HomeView extends GetView<HomeController> {
   Widget _buildCircleButton(int index, HomeController controller) {
     final buttonLabels = [
       'Aksara',
-      'Latihan',
       'Permainan',
+      'History',
       'Sejarah',
       'User',
       'Progress',
@@ -157,16 +186,16 @@ class HomeView extends GetView<HomeController> {
           onTap: () {
             switch (index) {
               case 0: // Aksara
-
+                Get.toNamed(Routes.CONTENT);
                 break;
               case 1: // Latihan
-
+                Get.toNamed(Routes.PELATIHAN);
                 break;
               case 2: // Permainan
-
+                Get.toNamed(Routes.PERMAINAN);
                 break;
               case 3: // Sejarah
-
+                Get.toNamed(Routes.SEJARAH);
                 break;
               case 4: // User (Admin Only)
 
@@ -229,7 +258,7 @@ class HomeView extends GetView<HomeController> {
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.book_online),
             onPressed: () {},
           ),
           IconButton(
@@ -242,28 +271,37 @@ class HomeView extends GetView<HomeController> {
   }
 
   Widget _buildContentCard() {
-    return SizedBox(
-      height: 280,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        children: [
-          _buildSingleContentCard(
-            title: 'Sejarah Aksara Bima',
-            content: 'Sejarah aksara Bima dimulai dari...',
-            imageUrl: 'https://via.placeholder.com/250',
-          ),
-          _buildSingleContentCard(
-            title: 'Aksara Bima',
-            content: 'Aksara Bima adalah...',
-            imageUrl: 'https://via.placeholder.com/250',
-          ),
-          _buildSingleContentCard(
-            title: 'Informasi tentang Aplikasi',
-            content: 'Aplikasi ini dibuat untuk...',
-            imageUrl: 'https://via.placeholder.com/250',
-          ),
-        ],
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 5,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'History',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 16),
+            Column(
+              children: contentData.map((data) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: _buildSingleContentCard(
+                    title: data['title']!,
+                    content: data['content']!,
+                    imageUrl: data['imageUrl']!,
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -274,19 +312,15 @@ class HomeView extends GetView<HomeController> {
     required String imageUrl,
   }) {
     return Card(
-      margin: const EdgeInsets.only(right: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
-      child: SizedBox(
-        width: 230,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15),
-                topRight: Radius.circular(15),
-              ),
+              borderRadius: BorderRadius.circular(15),
               child: Image.network(
                 imageUrl,
                 height: 140,
@@ -294,31 +328,24 @@ class HomeView extends GetView<HomeController> {
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    content,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Colors.black54,
-                    ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+            SizedBox(height: 16),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
               ),
+            ),
+            SizedBox(height: 8),
+            Text(
+              content,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

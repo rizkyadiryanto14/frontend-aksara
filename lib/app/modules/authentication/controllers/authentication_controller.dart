@@ -13,7 +13,7 @@ class AuthenticationController extends GetxController {
   var obscureText = true.obs;
   var isLoading = false.obs;
   final box = GetStorage();
-  final baseUrl = 'http://172.20.176.1/backend_aksara/auth/login';
+  final baseUrl = 'http://192.168.1.16/backend_aksara/auth/login';
 
   @override
   void onInit() {

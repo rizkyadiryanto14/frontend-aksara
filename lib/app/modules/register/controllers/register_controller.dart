@@ -6,7 +6,7 @@ import 'package:learnaksara/app/routes/app_pages.dart';
 
 class RegisterController extends GetxController {
   final formKey = GlobalKey<FormState>();
-  final baseUrl = 'http://172.20.176.1/backend_aksara/auth/register';
+  final baseUrl = 'http://192.168.1.16/backend_aksara/auth/register';
 
   var obscureText = true.obs;
   var isLoading = false.obs;
